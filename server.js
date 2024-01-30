@@ -3,63 +3,46 @@
  */
 
 import Fastify from "fastify";
-import cors from '@fastify/cors'
+import cors from "@fastify/cors";
+import * as fs from "fs";
 const fastify = Fastify({
   logger: true,
 });
-fastify.register(cors, { 
-  origin: ["https://glitch.com", /localhost\:8080/, "*"]
+fastify.register(cors, {
+  origin: ["https://glitch.com", /localhost\:8080/, "*"],
 });
-
-
 
 fastify.get("/", function (request, reply) {
-  reply.send({ message: "hello world" });
+  // send a static file
+  const bufferIndexHtml = fs.readFileSync("public/index.html");
+  reply.type("text/html").send(bufferIndexHtml);
 });
 
-
-
-
 fastify.get("/api", async function (request, reply) {
-  let r = Math.floor(Math.random()*passwords.length)
+  let r = Math.floor(Math.random() * passwords.length);
   // console.log(r);
   reply.send({ password: passwords[r] });
 });
 
-// https://en.wikipedia.org/wiki/List_of_the_most_common_passwords
+// https://en.wikipedia.org/wiki/Wikipedia:10,000_most_common_passwords
 let passwords = [
-  "qwerty",
   "123456",
+  "abc123",
+  "qwerty",
   "password",
-  "111111"
-]
-
-
-
-// // import fetch from "node-fetch";
-// fastify.get("/proxy/:url", async (request, reply) => {
-//   console.log(request.params.url);
-  
-  
-//   // const response = await fetch("https://api.weather.gov/");
-//   // const str = await response.json();
-  
-//   // let str = "";
-//   // let page = await fetch(request.params.url)
-//   //   .then((r) => (str = r.text()))
-//   //   .catch((err) => console.error(err));
-//   reply.send({ url: request.params.url });
-// });
-
-// app.get("/proxy/:url", async (req, res) => {
-//   if (!req.params.url) res.send("No url");
-//   console.log(req.params.url);
-//   let str = "";
-//   // let page = await fetch(req.params.url)
-//   //   .then((r) => str = r.text())
-//   //   .catch((err) => console.error(err))
-//   res.send(123);
-// });
+  "12345678",
+  "111111",
+  "123123",
+  "qwerty123",
+  "password123",
+  "000000",
+  "qwertyuiop",
+  "dragon",
+  "hello",
+  "monkey",
+  "soccer",
+  "letmein",
+];
 
 // Run the server and report out to the logs
 fastify.listen(
