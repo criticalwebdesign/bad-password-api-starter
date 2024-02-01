@@ -2,47 +2,86 @@
  * A bad password API
  */
 
+import {
+  common,
+  endearments,
+  pets,
+  patterns,
+  colors,
+  cities,
+  randomYear,
+} from "./data.js";
+// console.log(common, pets);
+
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import * as fs from "fs";
-const fastify = Fastify({
-  logger: true,
-});
-fastify.register(cors, {
-  origin: ["https://glitch.com", /localhost\:8080/, "*"],
-});
+const fastify = Fastify({ logger: true, ignoreTrailingSlash: true });
+fastify.register(cors, { origin: ["https://glitch.com", "*"] });
 
+// send a static file
 fastify.get("/", function (request, reply) {
-  // send a static file
-  const bufferIndexHtml = fs.readFileSync("public/index.html");
-  reply.type("text/html").send(bufferIndexHtml);
+  const bufferFile = fs.readFileSync("public/index.html");
+  reply.type("text/html").send(bufferFile);
 });
 
 fastify.get("/api", async function (request, reply) {
-  let r = Math.floor(Math.random() * passwords.length);
-  // console.log(r);
-  reply.send({ password: passwords[r] });
+  reply.send({ message: "hello" });
+});
+fastify.get("/api/common", async function (request, reply) {
+  reply.send({ password: randomFromArray(common) });
+});
+fastify.get("/api/custom", async function (request, reply) {
+  let arr = request.query.params.split(",");
+  reply.send({ password: returnPassword(arr) });
 });
 
-// https://en.wikipedia.org/wiki/Wikipedia:10,000_most_common_passwords
-let passwords = [
-  "123456",
-  "abc123",
-  "qwerty",
-  "password",
-  "12345678",
-  "111111",
-  "123123",
-  "qwerty123",
-  "password123",
-  "000000",
-  "qwertyuiop",
-  "dragon",
-  "hello",
-  "monkey",
-  "soccer",
-  "letmein",
-];
+function returnPassword(arr) {
+  console.log(arr);
+  let shuffle = [];
+  let str = "";
+  if (arr.includes("common")) {
+    str = randomFromArray(common);
+  } else {
+    if (arr.includes("endearments")) {
+      shuffle.push(randomFromArray(endearments));
+    }
+    if (arr.includes("pets")) {
+      shuffle.push(randomFromArray(pets));
+    }
+    if (arr.includes("patterns")) {
+      shuffle.push(randomFromArray(patterns));
+    }
+    if (arr.includes("colors")) {
+      shuffle.push(randomFromArray(colors));
+    }
+    if (arr.includes("cities")) {
+      shuffle.push(randomFromArray(cities));
+    }
+    if (arr.includes("dates")) {
+      shuffle.push(randomYear());
+    }
+    // shuffle results
+    shuffle.sort(() => 0.5 - Math.random());
+    str = shuffle.join("");
+  }
+
+  if (arr.includes("lowercase")) {
+    str = str.toLowerCase();
+  }
+  return str;
+}
+
+function randomFromArray(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+
+// accepts post requests
+// fastify.post("/api/custom", async function (request, reply) {
+//   console.log(request.body);
+//   reply.send({ password: returnPassword(request.body) });
+// });
 
 // Run the server and report out to the logs
 fastify.listen(
