@@ -1,90 +1,34 @@
-/**
- * A bad password API
- */
+// server.js - Create fastify server instance, import routes
 
-import {
-  common,
-  endearments,
-  pets,
-  patterns,
-  colors,
-  cities,
-  randomYear,
-} from "./data.js";
-// console.log(common, pets);
-
+// import fastify
 import Fastify from "fastify";
+// create fastify server 
+const server = Fastify({
+  logger: false, // set true to see all requests
+  ignoreTrailingSlash: true, // clean urls
+  ignoreDuplicateSlashes: true,
+});
+
+// enable CORS for fastify, will only accept requests from glitch.com
 import cors from "@fastify/cors";
-import * as fs from "fs";
-const fastify = Fastify({ logger: true, ignoreTrailingSlash: true });
-fastify.register(cors, { origin: ["https://glitch.com", "*"] });
+server.register(cors, { origin: ["https://glitch.com", "*"] });
 
-// send a static file
-fastify.get("/", function (request, reply) {
-  const bufferFile = fs.readFileSync("public/index.html");
-  reply.type("text/html").send(bufferFile);
+// make all files inside /public available using static
+import fastifyStatic from "@fastify/static";
+import path from "path";
+import { URL } from "url";
+const __filename = new URL("", import.meta.url).pathname;
+const __dirname = new URL(".", import.meta.url).pathname;
+server.register(fastifyStatic, {
+  root: path.join(__dirname, "public"),
 });
 
-fastify.get("/api", async function (request, reply) {
-  reply.send({ message: "hello" });
-});
-fastify.get("/api/common", async function (request, reply) {
-  reply.send({ password: randomFromArray(common) });
-});
-fastify.get("/api/custom", async function (request, reply) {
-  let arr = request.query.params.split(",");
-  reply.send({ password: returnPassword(arr) });
-});
+// add a separate file for routes
+import routes from "./routes.js";
+server.register(routes);
 
-function returnPassword(arr) {
-  console.log(arr);
-  let shuffle = [];
-  let str = "";
-  if (arr.includes("common")) {
-    str = randomFromArray(common);
-  } else {
-    if (arr.includes("endearments")) {
-      shuffle.push(randomFromArray(endearments));
-    }
-    if (arr.includes("pets")) {
-      shuffle.push(randomFromArray(pets));
-    }
-    if (arr.includes("patterns")) {
-      shuffle.push(randomFromArray(patterns));
-    }
-    if (arr.includes("colors")) {
-      shuffle.push(randomFromArray(colors));
-    }
-    if (arr.includes("cities")) {
-      shuffle.push(randomFromArray(cities));
-    }
-    if (arr.includes("dates")) {
-      shuffle.push(randomYear());
-    }
-    // shuffle results
-    shuffle.sort(() => 0.5 - Math.random());
-    str = shuffle.join("");
-  }
-
-  if (arr.includes("lowercase")) {
-    str = str.toLowerCase();
-  }
-  return str;
-}
-
-function randomFromArray(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-
-// accepts post requests
-// fastify.post("/api/custom", async function (request, reply) {
-//   console.log(request.body);
-//   reply.send({ password: returnPassword(request.body) });
-// });
-
-// Run the server and report out to the logs
-fastify.listen(
+// run the server and report out to the logs
+server.listen(
   { port: process.env.PORT, host: "0.0.0.0" },
   function (err, address) {
     if (err) {

@@ -1,3 +1,15 @@
-.glitchdotcom.json
-.node-gyp
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# OSX
+.DS_Store
+.Spotlight-V100
+.Trashes
+._*
+
+# Javascript
 node_modules
+.node-gyp
+.glitchdotcom.json
