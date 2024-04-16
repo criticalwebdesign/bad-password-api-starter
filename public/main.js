@@ -5,7 +5,6 @@ let password = document.querySelector("#password");
 let info = document.querySelector("#info");
 let button = document.querySelector("#submit");
 // INPUTS
-let common = document.querySelector("#common");
 let endearments = document.querySelector("#endearments");
 let pets = document.querySelector("#pets");
 let patterns = document.querySelector("#patterns");
@@ -14,8 +13,9 @@ let dates = document.querySelector("#dates");
 let cities = document.querySelector("#cities");
 let lowercase = document.querySelector("#lowercase");
 
-// EVENTS
+// EVENTS > display a common password on load
 window.addEventListener("load", updatePassword);
+// EVENTS > submit listener 
 document.addEventListener("submit", (e) => {
   e.preventDefault();
   updatePassword();
@@ -28,46 +28,37 @@ checkboxes.forEach((ele) => {
   ele.addEventListener("change", handleCheck);
 });
 
-// only allow either a common or any 3 custom parameters
+// only allow 2 custom parameters
 function handleCheck(e) {
-  // if common is checked,
-  if (e.target.id == "common") {
-    // then uncheck all others
-    checkboxes.forEach((ele) => {
-      if (ele.id != "common") ele.checked = false;
-    });
-  } else {
-    // otherwise, uncheck common
-    checkboxes[0].checked = false;
-    // get all checked
-    let currentlyChecked = document.querySelectorAll("input:checked");
-    if (currentlyChecked.length > 3) {
-      // uncheck current
-      e.target.checked = false;
-      displayInfo(`Don't you want ${getSynonym()} password?`);
-    }
+  // get all checked
+  let currentlyChecked = document.querySelectorAll("input:checked");
+  if (currentlyChecked.length > 2) {
+    // uncheck current
+    e.target.checked = false;
+    displayInfo(`Don't you want ${getSynonym()} password?`);
   }
   updatePassword();
 }
 
 async function updatePassword() {
-  // base url for API always returns a common bad password
+  // base url for API
   let url = "https://bad-password-api.glitch.me/api";
 
-  // if sending a custom request
-  if (common.checked) {
+  // add the strings to a new array
+  let formData = [];
+  if (endearments.checked) formData.push("endearments");
+  if (pets.checked) formData.push("pets");
+  if (patterns.checked) formData.push("patterns");
+  if (colors.checked) formData.push("colors");
+  if (dates.checked) formData.push("dates");
+  if (cities.checked) formData.push("cities");
+  if (lowercase.checked) formData.push("lowercase");
+
+  // if no options selected get a common password
+  if (formData.length < 1) {
     url += "/common";
   } else {
-    // add the strings to a new array
-    let formData = [];
-    if (endearments.checked) formData.push("endearments");
-    if (pets.checked) formData.push("pets");
-    if (patterns.checked) formData.push("patterns");
-    if (colors.checked) formData.push("colors");
-    if (dates.checked) formData.push("dates");
-    if (cities.checked) formData.push("cities");
-    if (lowercase.checked) formData.push("lowercase");
-    // and append them to the end
+    // join and append options to the end
     url += "/custom?params=" + formData.join(",");
     console.log(formData);
   }
@@ -77,9 +68,13 @@ async function updatePassword() {
     .then((response) => response.json())
     .then((json) => {
       console.log("fetch() response", json);
-      password.value = json.password;
+      password.value = json.message;
     });
 }
+
+/*************************************
+ ************* EXTRA *****************
+ *************************************/
 
 /**
  * Copy to clipboard

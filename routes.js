@@ -9,17 +9,17 @@ const routes = async (server, options) => {
     reply.send({ message: "hello" });
   });
   server.get("/api/common", async function (request, reply) {
-    reply.send({ password: randomFromArray(data.common) });
+    reply.send({ message: randomFromArray(data.common) });
   });
   server.get("/api/custom", async function (request, reply) {
     let arr = request.query.params.split(",");
-    reply.send({ password: returnPassword(arr) });
+    reply.send({ message: returnPassword(arr) });
   });
 
   // also accepts post requests
   // fastify.post("/api/custom", async function (request, reply) {
   //   console.log(request.body);
-  //   reply.send({ password: returnPassword(request.body) });
+  //   reply.send({ message: returnPassword(request.body) });
   // });
 };
 export default routes;

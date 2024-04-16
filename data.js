@@ -52,7 +52,7 @@ export const functions = {
   },
   randomYear: () => {
     let currentYear = new Date().getFullYear();
-    let year = `${this.randomInt(currentYear - 90, currentYear)}`;
+    let year = `${functions.randomInt(currentYear - 90, currentYear)}`;
     if (Math.random() < 0.5) year = year.slice(2);
     return year;
   },
