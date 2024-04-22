@@ -12,51 +12,36 @@ const routes = async (server, options) => {
     reply.send({ message: randomFromArray(data.common) });
   });
   server.get("/api/custom", async function (request, reply) {
-    let arr = request.query.params.split(",");
-    reply.send({ message: returnPassword(arr) });
+    console.log(request.query.params);
+    reply.send({ message: returnPassword(request.query.params) });
   });
-
-  // also accepts post requests
-  // fastify.post("/api/custom", async function (request, reply) {
-  //   console.log(request.body);
-  //   reply.send({ message: returnPassword(request.body) });
-  // });
 };
 export default routes;
 
-function returnPassword(arr) {
-  console.log(arr);
-  let shuffle = [];
+function returnPassword(params) {
   let str = "";
-  if (arr.includes("common")) {
-    str = randomFromArray(data.common);
-  } else {
-    if (arr.includes("endearments")) {
-      shuffle.push(randomFromArray(data.endearments));
-    }
-    if (arr.includes("pets")) {
-      shuffle.push(randomFromArray(data.pets));
-    }
-    if (arr.includes("patterns")) {
-      shuffle.push(randomFromArray(data.patterns));
-    }
-    if (arr.includes("colors")) {
-      shuffle.push(randomFromArray(data.colors));
-    }
-    if (arr.includes("cities")) {
-      shuffle.push(randomFromArray(data.cities));
-    }
-    if (arr.includes("dates")) {
-      shuffle.push(functions.randomYear());
-    }
-    // shuffle results
-    shuffle.sort(() => 0.5 - Math.random());
-    str = shuffle.join("");
+
+  // group 1
+  if (params.includes("endearments")) {
+    str += randomFromArray(data.endearments);
+  }
+  if (params.includes("pets")) {
+    str += randomFromArray(data.pets);
+  }
+  if (params.includes("cities")) {
+    str += randomFromArray(data.cities);
+  }
+  // group 2
+  if (params.includes("colors")) {
+    str += randomFromArray(data.colors);
+  }
+  if (params.includes("dates")) {
+    str += functions.randomYear();
+  }
+  if (params.includes("patterns")) {
+    str += randomFromArray(data.patterns);
   }
 
-  if (arr.includes("lowercase")) {
-    str = str.toLowerCase();
-  }
   return str;
 }
 

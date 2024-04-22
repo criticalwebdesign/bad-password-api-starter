@@ -2,66 +2,31 @@
 
 // REFERENCES
 let password = document.querySelector("#password");
-let info = document.querySelector("#info");
 let button = document.querySelector("#submit");
-// INPUTS
-let endearments = document.querySelector("#endearments");
-let pets = document.querySelector("#pets");
-let patterns = document.querySelector("#patterns");
-let colors = document.querySelector("#colors");
-let dates = document.querySelector("#dates");
-let cities = document.querySelector("#cities");
-let lowercase = document.querySelector("#lowercase");
 
-// EVENTS > display a common password on load
+// EVENTS
 window.addEventListener("load", updatePassword);
-// EVENTS > submit listener 
 document.addEventListener("submit", (e) => {
   e.preventDefault();
   updatePassword();
 });
 
-// select all checkboxes
-let checkboxes = document.querySelectorAll("input[type=checkbox]");
-// add a change event listener to each
-checkboxes.forEach((ele) => {
-  ele.addEventListener("change", handleCheck);
+// add a change event listener to each option
+document.querySelectorAll("input[type=radio]").forEach((ele) => {
+  ele.addEventListener("change", updatePassword);
 });
-
-// only allow 2 custom parameters
-function handleCheck(e) {
-  // get all checked
-  let currentlyChecked = document.querySelectorAll("input:checked");
-  if (currentlyChecked.length > 2) {
-    // uncheck current
-    e.target.checked = false;
-    displayInfo(`Don't you want ${getSynonym()} password?`);
-  }
-  updatePassword();
-}
 
 async function updatePassword() {
   // base url for API
-  let url = "https://bad-password-api.glitch.me/api";
+  let url = "https://bad-password-api-starter.glitch.me/api";
 
-  // add the strings to a new array
-  let formData = [];
-  if (endearments.checked) formData.push("endearments");
-  if (pets.checked) formData.push("pets");
-  if (patterns.checked) formData.push("patterns");
-  if (colors.checked) formData.push("colors");
-  if (dates.checked) formData.push("dates");
-  if (cities.checked) formData.push("cities");
-  if (lowercase.checked) formData.push("lowercase");
+  // get the value from both groups
+  let group1 = document.querySelector("input[name=group1]:checked");
+  let group2 = document.querySelector("input[name=group2]:checked");
 
-  // if no options selected get a common password
-  if (formData.length < 1) {
-    url += "/common";
-  } else {
-    // join and append options to the end
-    url += "/custom?params=" + formData.join(",");
-    console.log(formData);
-  }
+  // append options to the end
+  url += "/custom?params=" + group1.value + "," + group2.value;
+  // console.log(url);
 
   // request data
   await fetch(url)
@@ -76,72 +41,73 @@ async function updatePassword() {
  ************* EXTRA *****************
  *************************************/
 
-/**
- * Copy to clipboard
- */
-password.addEventListener("click", async function (event) {
-  try {
-    await navigator.clipboard.writeText(this.value);
-    displayInfo("password copied");
-  } catch (err) {
-    displayInfo("password failed to copy! " + err);
-  }
-});
+// /**
+//  * Copy to clipboard
+//  */
+// password.addEventListener("click", async function (event) {
+//   try {
+//     await navigator.clipboard.writeText(this.value);
+//     displayInfo("password copied");
+//   } catch (err) {
+//     displayInfo("password failed to copy! " + err);
+//   }
+// });
 
-/**
- * Display info message
- */
-let timeout;
-function displayInfo(str) {
-  clearTimeout(timeout);
-  // if (info.innerHTML != "") return;
-  info.innerHTML = str;
-  timeout = setTimeout(function () {
-    info.innerHTML = "";
-    timeout = undefined;
-  }, 2000);
-}
+// /**
+//  * Display info message
+//  */
+// let timeout;
+// function displayInfo(str) {
+//   clearTimeout(timeout);
+//   // if (info.innerHTML != "") return;
+//   info.innerHTML = str;
+//   timeout = setTimeout(function () {
+//     info.innerHTML = "";
+//     timeout = undefined;
+//   }, 2000);
+// }
+// displayInfo(`Don't you want ${getSynonym()} password?`);
 
-function getSynonym() {
-  let str = randomFromArray(badSynonyms);
-  if (/^[aeiou]$/i.test(str.charAt(0))) str = "an " + str;
-  else str = "a " + str;
-  return str;
-}
-let badSynonyms = `bad
-        atrocious
-        awful
-        cheap
-        crummy
-        dreadful
-        regrettable
-        dreadful
-        unusable
-        lousy
-        poor
-        sad
-        unacceptable
-        garbage
-        imperfect
-        inferior
-        abominable
-        careless
-        crappy
-        defective
-        deficient
-        erroneous
-        fallacious
-        faulty
-        inadequate
-        slipshod
-        substandard
-        unsatisfactory
-        `
-  .trim()
-  .split(/\W+/);
-function randomFromArray(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+// function getSynonym() {
+//   let str = randomFromArray(badSynonyms);
+//   if (/^[aeiou]$/i.test(str.charAt(0))) str = "an " + str;
+//   else str = "a " + str;
+//   return str;
+// }
+// let badSynonyms = `bad
+//         atrocious
+//         awful
+//         cheap
+//         crummy
+//         dreadful
+//         regrettable
+//         dreadful
+//         unusable
+//         lousy
+//         poor
+//         sad
+//         unacceptable
+//         garbage
+//         imperfect
+//         inferior
+//         abominable
+//         careless
+//         crappy
+//         defective
+//         deficient
+//         erroneous
+//         fallacious
+//         faulty
+//         inadequate
+//         slipshod
+//         substandard
+//         unsatisfactory
+//         `
+//   .trim()
+//   .split(/\W+/);
+// function randomFromArray(arr) {
+//   return arr[Math.floor(Math.random() * arr.length)];
+// }
 
 // // This version sends data to server in the body of a POST request
 // async function updatePasswordPost() {

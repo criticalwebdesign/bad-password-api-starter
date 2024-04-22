@@ -5,6 +5,7 @@ A password generator that only gives you terrible, regrettable, unacceptable, dr
 - Get a commonly-used bad password
 - Add parameters to generate a shiny new terrible password
 
+
 ## How does it work?
 
 This project uses Node.js (backend) to returns data to the browser (frontend).
