@@ -17,13 +17,13 @@ document.querySelectorAll("input[type=radio]").forEach((ele) => {
 });
 
 async function updatePassword() {
-  // base url for API
-  let url = "https://bad-password-api-starter.glitch.me/api";
 
   // get the value from both groups
   let group1 = document.querySelector("input[name=group1]:checked");
   let group2 = document.querySelector("input[name=group2]:checked");
 
+  // base url for API
+  let url = "https://bad-password-api.glitch.me/api";
   // append options to the end
   url += "/custom?params=" + group1.value + "," + group2.value;
   // console.log(url);
