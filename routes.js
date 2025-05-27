@@ -4,7 +4,9 @@
 import { data, functions } from "./data.js";
 // console.log(data.pets);
 
+// this function defines the endpoints (a.k.a. "routes") for the API
 const routes = async (server, options) => {
+  // 👉 code (from Chapter 9) ...
   server.get("/api", async function (request, reply) {
     reply.send({ message: "hello" });
   });
