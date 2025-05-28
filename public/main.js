@@ -25,7 +25,8 @@ async function updatePassword() {
   let group2 = document.querySelector("input[name=group2]:checked");
 
   // base url for API
-  let url = "https://bad-password-api.glitch.me/api";
+  // let url = "https://bad-password-api.glitch.me/api";
+  let url = "/api";
   // append options to the end
   url += "/custom?params=" + group1.value + "," + group2.value;
   // console.log(url);

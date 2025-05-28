@@ -14,9 +14,6 @@
     "fastify-static": "^4.7.0",
     "node-fetch": "^3.3.2"
   },
-  "engines": {
-    "node": "14.x"
-  },
   "repository": {
     "url": "https://github.com/omundy/bad-password-api"
   },
