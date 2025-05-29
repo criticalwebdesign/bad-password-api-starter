@@ -11,4 +11,5 @@ desktop.ini
 
 # Javascript
 node_modules
-.node-gyp
+.vercel
+.env

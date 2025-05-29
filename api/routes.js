@@ -1,28 +1,34 @@
+//////////////////////////////////////
+////////////// ROUTES ////////////////
+//////////////////////////////////////
+
 // route.js - Add endpoints to the API
 
+import express from 'express';
+var router = express.Router();
 // import data for the API
 import { data, functions } from "./data.js";
 // console.log(data.pets);
 
-// this function defines the endpoints (a.k.a. "routes") for the API
-const routes = async (server, options) => {
-  // 👉 code (from Chapter 9) ...
-  server.get("/api", async function (request, reply) {
-    reply.send({ message: "hello" });
-  });
-  server.get("/api/common", async function (request, reply) {
-    reply.send({ message: randomFromArray(data.common) });
-  });
-  server.get("/api/custom", async function (request, reply) {
-    console.log(request.query.params);
-    reply.send({ message: returnPassword(request.query.params) });
-  });
-};
-export default routes;
+
+// 👉 code (from Chapter 9) ...
+router.get("/api", async function (request, reply) {
+  reply.send({ message: "hello" });
+});
+router.get("/api/common", async function (request, reply) {
+  reply.send({ message: randomFromArray(data.common) });
+});
+router.get("/api/custom", async function (request, reply) {
+  console.log(`params = ${request.query.params}`);
+  reply.send({ message: returnPassword(request.query.params) });
+});
+
+export default router;
+
+
 
 function returnPassword(params) {
   let str = "";
-
   // group 1
   if (params.includes("endearments")) {
     str += randomFromArray(data.endearments);
@@ -43,7 +49,6 @@ function returnPassword(params) {
   if (params.includes("patterns")) {
     str += randomFromArray(data.patterns);
   }
-
   return str;
 }
 
