@@ -13,6 +13,11 @@ const __filename = new URL("", import.meta.url).pathname;
 const __dirname = new URL(".", import.meta.url).pathname;
 app.use(express.static(path.join(__dirname, '../public')));
 
+// allow access to all 
+import cors from 'cors';
+app.use(cors());
+// app.options('*', cors());
+
 // add a separate file for routes
 import router from './routes.js';
 app.use('/', router);
