@@ -1,6 +1,6 @@
 # Bad Password API
 
-A password generator that only gives you terrible, regrettable, unacceptable, dreadful, awful, unusable passwords. Use the generator via the frontend (click "New password") or connect to the API from your own app.
+A password generator that only gives you terrible, regrettable, unacceptable, dreadful, awful, unusable passwords. Use the generator frontend [bad-password-api.vercel.app](https://bad-password-api.vercel.app/) or connect to the API from your own app to:
 
 - Get a commonly-used bad password
 - Add parameters to generate a shiny new terrible password
@@ -8,42 +8,36 @@ A password generator that only gives you terrible, regrettable, unacceptable, dr
 
 ## How does it work?
 
-This project uses Node.js (backend) to returns data to the browser (frontend).
+This project uses Node.js (backend) to returns data to the browser (frontend). 
 
 - `public/index.html`: The frontend for the API, uses client side JS to make requests to the server.
-- `index.js`: [Node.js](https://nodejs.org/en/about/) runs Javascript in the backend using the Express framework to start the server and import the `routes.js` file
-- `routes.js` contains the endpoints that return new passwords
+- `api/index.js`: [Node.js](https://nodejs.org/en/about/) runs Javascript in the backend using the Express framework to start the server and import the `routes.js` file
+- `api/routes.js` contains the endpoints that return new passwords
 - `package.json`: The NPM packages for project dependencies
+
+
 
 ## Notes
 
-- The [Bad Password API (Starter)](https://github.com/omundy/bad-password-api-starter) is a simpler version that appears in Chapter 9 "Data Tracking" in <em>Critical Web Design</em> by xtine burrough and Owen Mundy (MIT Press, 2025).
+- The finish version https://github.com/omundy/bad-password-api
+- The starter project https://github.com/omundy/bad-password-api-starter appears in Chapter 9 "Data Tracking" in <em>Critical Web Design</em> by xtine burrough and Owen Mundy (MIT Press, 2025).
 
 
 
 
-
-
-
-## Vercel Instructions
-
-See also: [Using Express.js with Vercel](https://vercel.com/guides/using-express-with-vercel#6.-run-your-application-locally)
-
-### Test locally
+## Instructions
 
 1. Clone the repo from Github
 1. Run `npm install`
 1. Start the app using `nodemon`
 
-### Deploy on Vercel
+### Connect to the API
 
-1. Quit the app (if still running) `CTL + C`
-1. Login to Vercel. Run `vercel login` and choose the method to login with arrow keys + return. It will complete in the browser. Return to the console and you will see `Congratulations! You are now logged in.`
-1. Create a new Vercel project `vercel dev` and answer prompts
-    1. Set up and develop? `Yes`
-    1. Which scope... `default`
-    1. Link to existing project `no` (unless you already set one up)
-    1. What's your project's name? `bad-password-api`
-    1. In which directory is your code located? `./`
-1. Upload your project to Vercel `vercel` - This will create a private build you can access 
-1. Make it live `vercel --prod`
+See Chapter 9 of Critical Web Design and use the starter version 
+https://github.com/omundy/bad-password-api-starter
+
+
+### Full-stack Instructions
+
+1. Create a directory called `public` and move `index.html`, `main.js`, and `styles.css` into the directory
+1. Publish on Vercel https://github.com/criticalwebdesign/book/wiki/Chapter-09#vercel-instructions

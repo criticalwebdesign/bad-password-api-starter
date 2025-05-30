@@ -16,7 +16,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 // allow access to all 
 import cors from 'cors';
 app.use(cors());
-// app.options('*', cors());
 
 // add a separate file for routes
 import router from './routes.js';
