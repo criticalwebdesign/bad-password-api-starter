@@ -1,5 +1,8 @@
 # Bad Password API
 
+<!-- Note: These instructions are the same across the two projects -->
+
+
 A password generator that only gives you terrible, regrettable, unacceptable, dreadful, awful, unusable passwords. Use the generator frontend [bad-password-api.vercel.app](https://bad-password-api.vercel.app/) or connect to the API from your own app to:
 
 - Get a commonly-used bad password
