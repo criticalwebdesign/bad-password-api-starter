@@ -12,16 +12,6 @@ import { data, functions } from "./data.js";
 
 
 // 👉 code (from Chapter 9) ...
-router.get("/api", async function (request, reply) {
-  reply.send({ message: "hello" });
-});
-router.get("/api/common", async function (request, reply) {
-  reply.send({ message: randomFromArray(data.common) });
-});
-router.get("/api/custom", async function (request, reply) {
-  console.log(`params = ${request.query.params}`);
-  reply.send({ message: returnPassword(request.query.params) });
-});
 
 export default router;
 
