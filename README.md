@@ -1,4 +1,4 @@
-# <img src="public/favicon-32x32.png"> Bad Password API
+# <img src="public/favicon-32x32.png" height=22 width=22> Bad Password API
 
 <!-- 
 Note: The README instructions are the same across the two projects... 
