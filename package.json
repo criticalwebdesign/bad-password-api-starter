@@ -1,5 +1,5 @@
 {
-    "name": "bad-password-api",
+    "name": "bad-password-api-starter",
     "version": "1.0.0",
     "description": "A simple Node Express Vercel example",
     "main": "api/index.js",
