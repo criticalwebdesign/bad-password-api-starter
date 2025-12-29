@@ -18,7 +18,7 @@ router.get("/api", async function (request, reply) {
   reply.send({ message: "Hello 🔥" });
 });
 router.get("/api/common", async function (request, reply) {
-  reply.send({ message: randomFromArray(data.common) });
+  reply.send({ message: "Hello 🔥" });
 });
 router.get("/api/custom", async function (request, reply) {
   console.log(`params = ${request.query.params}`);
