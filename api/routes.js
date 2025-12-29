@@ -14,7 +14,16 @@ import { data, functions } from "./data.js";
 
 
 // 👉 code (from Chapter 9 wiki) ...
-
+router.get("/api", async function (request, reply) {
+  reply.send({ message: "Hello 🔥" });
+});
+router.get("/api/common", async function (request, reply) {
+  reply.send({ message: randomFromArray(data.common) });
+});
+router.get("/api/custom", async function (request, reply) {
+  console.log(`params = ${request.query.params}`);
+  reply.send({ message: returnPassword(request.query.params) });
+});
 
 
 
